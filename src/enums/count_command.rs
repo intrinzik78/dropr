@@ -2,7 +2,9 @@ use std::{path::PathBuf,fs::ReadDir};
 
 use clap::Subcommand;
 
-use crate::{types::View, Error};
+use crate::enums::Error;
+use crate::types::View;
+
 
 type Result<T> = std::result::Result<T,Error>;
 
@@ -17,9 +19,11 @@ pub enum CountCommand {
 
 impl CountCommand {
     fn count_local(&self, path_opt: &Option<PathBuf>) -> Result<u32> {
-        let file_types:[]
         if let Some(path) = path_opt {
-            let d = ReadDir::filter_map(self, |s|)
+            todo!()
+            // let accepted_file_extensions: [&'static str;8] = ["";8];
+            
+            // let d = ReadDir::filter_map(self, |s|)
         } else {
             todo!()
         }

@@ -14,31 +14,31 @@ impl View {
     }
 
     pub fn header(&self, m: &str) -> Result<&View> {
-        println!("\n{}",m);
+        println!("\n{m}");
 
         for _ in m.chars() {
             print!("-");
         }
 
-        print!("\n");
         stdout().flush().map_err(|_| Error::FailedToFlushStdOut)?;
+        println!();
 
-        Ok(&self)
+        Ok(self)
     }
 
     pub fn end(&self) {
-        println!("");
+        println!();
     }
 
     pub fn print(&self, m: &str) -> Result<&View> {
-        print!("{}",m);
+        print!("{m}");
         stdout().flush().map_err(|_| Error::FailedToFlushStdOut)?;
-        Ok(&self)
+        Ok(self)
     }
 
     pub fn println(&self, m: &str) -> &View {
-        println!("{}",m);
-        &self
+        println!("{m}");
+        self
     }
 
     pub fn prompt_public(&self, _m: &str) -> Result<String> {

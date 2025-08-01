@@ -32,6 +32,6 @@ impl ToFsEntryType for DirEntry {
             return Ok(FsEntryType::SymLink);
         }
 
-        return Err(Error::NoValidFsEntryType);
+        Err(Error::NoValidFsEntryType)
     }
 }

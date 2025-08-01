@@ -32,8 +32,8 @@ impl Controller {
 
     pub async fn run(&self, args: &Cli) -> Result<()> {
         let view = &self.view;
-        let path_opt = &args.path;
-        let find_type_opt = &args.find_type;
+        let path_opt = args.path .as_ref();
+        let find_type_opt = args.find_type.as_ref();
 
         match &args.command {
             PrimaryCommand::Count(command) => command.run(path_opt, find_type_opt, view).await?,

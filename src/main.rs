@@ -11,7 +11,7 @@ type Result<T> = std::result::Result<T,Error>;
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    let with_cli_arguments = Cli::parse();
+    let with_cli_arguments = Cli::parse(); // exits on error, displaying --help
     let controller = Controller::new().await?;
     
     controller

@@ -13,7 +13,7 @@ pub struct Cli {
 
     /// Specify an image type
     #[arg(long,short)]
-    pub file_type: Option<ImageType>,
+    pub find_type: Option<ImageType>,
 
     /// Path to the target directory
     #[arg(long,short)]

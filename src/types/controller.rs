@@ -31,9 +31,12 @@ impl Controller {
     }
 
     pub async fn run(&self, args: &Cli) -> Result<()> {
+        let view = &self.view;
+        let path_opt = &args.path;
+        let find_type_opt = &args.find_type;
 
         match &args.command {
-            PrimaryCommand::Count(command) => command.run(&args.path, &self.view).await?,
+            PrimaryCommand::Count(command) => command.run(path_opt, find_type_opt, view).await?,
             _ => return Err(Error::InvalidCommandLineArgument)
         };
 

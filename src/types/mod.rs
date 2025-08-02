@@ -11,7 +11,6 @@ pub use commands::{
     Delete,
     ListFolders,
     Rename,
-    Size,
     Verify
 };
 pub use controller::Controller;

@@ -3,7 +3,7 @@ use std::path::PathBuf;
 
 use crate::enums::{ Error, ImageType, SearchResult };
 use crate::types::View;
-use crate::traits::{ ToFsEntryType, ToImageType };
+use crate::traits::{ ToFsEntryType, ToImageType, ToSearchResult };
 
 type Result<T> = std::result::Result<T,Error>;
 
@@ -18,24 +18,8 @@ pub enum CountCommand {
 
 impl CountCommand {
 
-    // compares the file system types discovered to the user provided search type and returns a SearchResult type
-    fn filter(image_type_opt: Option<ImageType>, find_type_opt: Option<&ImageType>) -> SearchResult {
-        
-        // early return if no filter
-        if find_type_opt.is_none() || image_type_opt.is_none(){
-            return SearchResult::Found;
-        }
-        
-        if image_type_opt.as_ref() == find_type_opt {
-            SearchResult::Found
-        } else {
-            SearchResult::NotFound
-        }
-
-    }
-
-    // counts the number of files in a source directory
-    fn count_local(&self, path_opt: Option<&PathBuf>, find_type_opt: Option<&ImageType>) -> Result<u32> {
+    // counts the number of files in a source directory, filtering by the search_opt arg if present
+    fn count_local(&self, path_opt: Option<&PathBuf>, search_opt: Option<&ImageType>) -> Result<u32> {
         // extract path argument or operate on current directory
         let path = match path_opt {
             Some(p_buf) => p_buf,
@@ -47,18 +31,22 @@ impl CountCommand {
             return Err(Error::PathNotDirectory)
         }
 
-        // iterate over directory entries
+        // iterate over target directory entries
         let mut counter = 0_u32;
 
-        for entry_result in path.read_dir()? {
-            let image_type_opt = entry_result?
+        for dir_entry in path.read_dir()? {
+            let handle = &dir_entry?;
+            let search_result = handle
                 .to_fs_entry_type()?
-                .to_image_type();
+                .to_image_type()
+                .to_search_result(search_opt);
 
             // filter results
-            if CountCommand::filter(image_type_opt,find_type_opt) == SearchResult::Found {
-                counter += 1;
-            }
+            match search_result {
+                SearchResult::Found => counter += 1,
+                SearchResult::NoSearchFilter => counter +=1,
+                SearchResult::NotFound => {}
+            };
         }
 
         Ok(counter)

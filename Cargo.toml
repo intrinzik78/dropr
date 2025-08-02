@@ -9,4 +9,5 @@ derive_more = { version = "=1.0.0", features = ["from"] }
 reqwest = "0.12.22"
 serde = { version = "1.0.219", features = ["derive"] }
 sqlx = { version = "0.8.6", features = ["mysql", "runtime-async-std", "time", "chrono"] }
+tempfile = "3.20.0"
 tokio = { version = "1.47.0", features = ["full"] }

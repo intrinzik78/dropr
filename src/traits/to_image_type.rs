@@ -29,6 +29,7 @@ impl ToImageType for FsEntryType {
             "tif" => ImageType::Tif,
             "tiff" => ImageType::Tiff,
             "webp" => ImageType::Webp,
+            "pdf" => ImageType::Pdf,
             _ => return None
         };
 

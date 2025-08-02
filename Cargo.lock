@@ -564,6 +564,7 @@ dependencies = [
  "reqwest",
  "serde",
  "sqlx",
+ "tempfile",
  "tokio",
 ]
 

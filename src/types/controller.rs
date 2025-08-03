@@ -1,11 +1,13 @@
 use crate::enums::{
     Error,
-    PrimaryCommand
+    PrimaryCommand,
+    SystemStatus
 };
 
 use crate::types::{
     Cli,
     DatabaseConnection,
+    Dropbox,
     View
 };
 
@@ -34,7 +36,14 @@ impl Controller {
         let view = &self.view;
         let path_opt = args.path.as_ref();
         let find_type_opt = args.find_type.as_ref();
+        
+        let master_password = view.prompt_private("Enter password: ")?;
 
+        match SystemStatus::unlock(&master_password).await? {
+            SystemStatus::Locked => return Err(Error::SystemLocked),
+            SystemStatus::Unlocked => {}
+        }
+        
         match &args.command {
             PrimaryCommand::Count(command) => command.run(path_opt, find_type_opt, view).await?,
             PrimaryCommand::Size(command) => command.run(path_opt, find_type_opt, view).await?,

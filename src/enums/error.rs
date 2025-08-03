@@ -23,6 +23,7 @@ pub enum Error {
     NoValidFsEntryType,
     PathNotDirectory,
     RemotePathDoesNotExist,
+    SystemLocked
 }
 
 impl std::error::Error for Error {}
@@ -39,6 +40,7 @@ impl fmt::Display for Error {
             Error::NoValidFsEntryType => write!(f, "Could not read file types in file system."),
             Error::PathNotDirectory => write!(f, "Path is not a directory. Check the path and try again."),
             Error::RemotePathDoesNotExist => write!(f, "Bucket does not exist. Use --list-buckets to see which buckets are online."),
+            Error::SystemLocked => write!(f, "Unable to unlock system. Retry or contact developer for a system key."),
             _ => write!(f, "{self:?}")
         }
     }

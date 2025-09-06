@@ -46,7 +46,7 @@ impl SizeCommand {
             let data_to_upload = match search_result {
                 SearchResult::Found => handle.metadata()?.size(),
                 SearchResult::NoSearchFilter => handle.metadata()?.size(),
-                SearchResult::NotFound => 0_64,
+                SearchResult::NotFound => 0_u64,
             };
 
             upload_size += data_to_upload;

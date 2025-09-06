@@ -3,11 +3,14 @@ name = "dropr"
 version = "0.0.1"
 edition = "2024"
 
+authors = ["Josh Briggs", "Josh Briggs <josh@derivemore.com"]
+
 [dependencies]
 aes-gcm = "0.10.3"
 bcrypt = "0.17.0"
 clap = { version = "4.5.42", features = ["derive"] }
 derive_more = { version = "=1.0.0", features = ["from"] }
+dotenv = "0.15.0"
 reqwest = "0.12.22"
 rpassword = "7.4.0"
 serde = { version = "1.0.219", features = ["derive"] }

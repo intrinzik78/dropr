@@ -20,6 +20,7 @@ pub enum Error {
     GetCurrentDirectory,
     InvalidCommandLineArgument,
     NoRemotePathSpecified,
+    NoValidPortProvided,
     NoValidFsEntryType,
     PathNotDirectory,
     RemotePathDoesNotExist,

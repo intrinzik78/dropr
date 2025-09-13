@@ -6,16 +6,15 @@ use crate::enums::{ImageType, PrimaryCommand};
 #[derive(Debug,Parser)]
 #[command(name = "Dropr", about = "Create and manage dropbox photo buckets and file links for public download")]
 pub struct Cli {
-    
     /// Primary command to run
     #[command(subcommand)]
     pub command: PrimaryCommand,
 
-    /// Specify an image type
+    /// Filter by image type
     #[arg(long,short)]
-    pub find_type: Option<ImageType>,
+    pub file_type: Option<ImageType>,
 
-    /// Path to the target directory
+    /// Target directory path
     #[arg(long,short)]
     pub path: Option<PathBuf>
 }

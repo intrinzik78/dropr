@@ -29,7 +29,12 @@ async fn main() -> Result<()> {
     // execute the program
     match controller.run(&cli_arguments).await {
         Ok(_) => controller.view.println("[finished ok]"),
-        Err(e) => controller.view.println(&e.to_string())
+        Err(e) => {
+            match e {
+                DroprError::SDKError(e) => controller.view.println(&e.to_string()),
+                _ => controller.view.println(&e.to_string())
+            }
+        }
     };
 
     Ok(())

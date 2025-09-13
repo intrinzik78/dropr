@@ -1,4 +1,3 @@
-mod count_command;
 mod error;
 mod image_type;
 mod file_size;
@@ -7,9 +6,9 @@ mod method;
 mod primary_command;
 mod search_result;
 mod send_status;
-mod size_command;
 
-pub use count_command::CountCommand;
+pub mod primary_commands;
+
 pub use error::DroprError;
 pub use file_size::FileSize;
 pub use image_type::ImageType;
@@ -18,4 +17,3 @@ pub use method::Method;
 pub use primary_command::PrimaryCommand;
 pub use search_result::SearchResult;
 pub use send_status::SendStatus;
-pub use size_command::SizeCommand;

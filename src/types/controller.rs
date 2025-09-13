@@ -108,6 +108,7 @@ impl Controller {
         match &args.command {
             P::Count(count) => count.run(args, self).await?,
             P::Size(size) => size.run(args, self).await?,
+            P::Secret(secret) => secret.run(args, self).await?,
             _ => return Err(DroprError::InvalidCommandLineArgument)
         };
 

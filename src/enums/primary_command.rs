@@ -1,6 +1,6 @@
 use clap::Subcommand;
 
-use crate::enums::{ CountCommand,SizeCommand };
+use crate::enums::primary_commands::{CountCommand,SizeCommand,SecretCommand};
 
 #[derive(Clone,Debug,Subcommand,PartialEq)]
 pub enum PrimaryCommand {
@@ -23,6 +23,10 @@ pub enum PrimaryCommand {
 
     /// upload size of a target path
     #[command(subcommand)]
-    Size(SizeCommand)
+    Size(SizeCommand),
+
+    /// upload size of a target path
+    #[command(subcommand)]
+    Secret(SecretCommand)
     
 }

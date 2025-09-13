@@ -36,6 +36,7 @@ impl Default for Env {
 mod tests {
     use super::*;
 
+    #[test]
     fn default_env_builder() {
         // manually construct Env, will fail on missing values
         let manual_env = Env {

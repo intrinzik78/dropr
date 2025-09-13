@@ -2,11 +2,11 @@ use clap::Subcommand;
 use std::os::unix::fs::MetadataExt;
 use std::path::PathBuf;
 
-use crate::enums::{ Error, FileSize, ImageType, SearchResult };
+use crate::enums::{ DroprError, FileSize, ImageType, SearchResult };
 use crate::traits::{ToFileSize, ToFsEntryType, ToImageType, ToSearchResult};
-use crate::types::View;
+use crate::types::{Cli, Controller};
 
-type Result<T> = std::result::Result<T,Error>;
+type Result<T> = std::result::Result<T,DroprError>;
 
 #[derive(Clone,Debug,PartialEq,Subcommand)]
 pub enum SizeCommand {
@@ -23,13 +23,13 @@ impl SizeCommand {
     fn local<'a> (&self, path_opt: Option<&PathBuf>, search_opt: Option<&ImageType>) -> Result<u64> {
         // extract path argument or operate on current directory
         let path = match path_opt {
-            Some(p_buf) => p_buf,
-            None => &std::env::current_dir().map_err(|_e| Error::GetCurrentDirectory)?
+            Some(p) => p,
+            None => &Controller::current_directory()?
         };
 
         // verify path is a directory
         if !path.is_dir() {
-            return Err(Error::PathNotDirectory)
+            return Err(DroprError::PathNotDirectory)
         }
 
         // iterate over target directory entries
@@ -59,9 +59,12 @@ impl SizeCommand {
         todo!()
     }
 
-    pub async fn run<'a> (&self, path_opt: Option<&'a PathBuf>, find_type_opt: Option<&'a ImageType>, view: &View) -> Result<()> {
+    pub async fn run (&self, args: &Cli, controller: &Controller) -> Result<()> {
+        let path_opt = args.path.as_ref();
+        let search_opt = args.file_type.as_ref();
+        
         let result = match self {
-            SizeCommand::Local => self.local(path_opt, find_type_opt)?,
+            SizeCommand::Local => self.local(path_opt, search_opt)?,
             SizeCommand::Remote => self.remote().await?
         };
 
@@ -76,7 +79,7 @@ impl SizeCommand {
             FileSize::PetaByte(n) => format!("Total upload size: {n} PetaBytes")
         };
 
-        view.header("Results")?
+        controller.view.header("Results")?
             .println(&display_string)
             .end();
             

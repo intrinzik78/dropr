@@ -11,6 +11,7 @@ bcrypt = "0.17.0"
 clap = { version = "4.5.42", features = ["derive"] }
 derive_more = { version = "=1.0.0", features = ["from"] }
 dotenv = "0.15.0"
+idropr-sdk-rust = { path = "../idropr-sdk-rust" }
 reqwest = "0.12.22"
 rpassword = "7.4.0"
 serde = { version = "1.0.219", features = ["derive"] }

@@ -1,9 +1,8 @@
 use serde::{Deserialize,Serialize};
 
-use crate::enums::Error;
-use crate::types::Http;
+use crate::enums::DroprError;
 
-type Result<T> = std::result::Result<T,Error>;
+type Result<T> = std::result::Result<T,DroprError>;
 
 
 #[derive(Debug,Serialize)]

@@ -10,7 +10,7 @@ mod send_status;
 mod size_command;
 
 pub use count_command::CountCommand;
-pub use error::Error;
+pub use error::DroprError;
 pub use file_size::FileSize;
 pub use image_type::ImageType;
 pub use fs_entry_type::FsEntryType;

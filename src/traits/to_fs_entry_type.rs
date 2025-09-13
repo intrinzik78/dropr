@@ -1,8 +1,8 @@
 use std::fs::DirEntry;
 
-use crate::enums::{ Error, FsEntryType };
+use crate::enums::{ DroprError, FsEntryType };
 
-type Result<T> = std::result::Result<T,Error>;
+type Result<T> = std::result::Result<T,DroprError>;
 
 pub trait ToFsEntryType {
     fn to_fs_entry_type(self) -> Result<FsEntryType>;
@@ -36,7 +36,7 @@ impl ToFsEntryType for &DirEntry {
             return Ok(FsEntryType::SymLink);
         }
 
-        Err(Error::NoValidFsEntryType)
+        Err(DroprError::NoValidFsEntryType)
     }
 }
 

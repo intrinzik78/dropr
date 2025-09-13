@@ -1,6 +1,6 @@
-use crate::enums::{Error,FileSize};
+use crate::enums::{DroprError,FileSize};
 
-type Result<T> = std::result::Result<T,Error>;
+type Result<T> = std::result::Result<T,DroprError>;
 
 const KB:u64 = 1024;
 const MB:u64 = 1_048_576;

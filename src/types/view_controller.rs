@@ -1,18 +1,12 @@
-use std::io::{ stdout, Write };
-use crate::enums::Error;
+use std::io::{ stdout, stdin, Write };
+use crate::enums::DroprError;
 
-type Result<T> = std::result::Result<T,Error>;
+type Result<T> = std::result::Result<T,DroprError>;
 
-#[derive(Debug)]
+#[derive(Debug,Default)]
 pub struct View;
 
 impl View {
-    pub fn new() -> Result<View> {
-        let view = View {};
-
-        Ok(view)
-    }
-
     pub fn header(&self, m: &str) -> Result<&View> {
         println!("\n{m}");
 
@@ -20,7 +14,7 @@ impl View {
             print!("-");
         }
 
-        stdout().flush().map_err(|_| Error::FailedToFlushStdOut)?;
+        stdout().flush().map_err(|_| DroprError::FailedToFlushStdOut)?;
         println!();
 
         Ok(self)
@@ -32,7 +26,7 @@ impl View {
 
     pub fn print(&self, m: &str) -> Result<&View> {
         print!("{m}");
-        stdout().flush().map_err(|_| Error::FailedToFlushStdOut)?;
+        stdout().flush().map_err(|_| DroprError::FailedToFlushStdOut)?;
         Ok(self)
     }
 
@@ -41,11 +35,31 @@ impl View {
         self
     }
 
-    pub fn prompt_public(&self, _m: &str) -> Result<String> {
-        todo!()
+    pub fn prompt_public(&self, prompt: &str) -> Result<String> {
+        let mut input:String = String::new();
+        self.print(prompt)?;
+        self.read_line(&mut input)?;
+
+        Ok(input)
     }
 
-    pub fn prompt_private(&self, _m: &str) -> Result<String> {
-        todo!()
+    pub fn prompt_private(&self, prompt: &str) -> Result<String> {
+        self.print(prompt)?;
+        let token = rpassword::read_password().map_err(|_e| DroprError::StdReadPasswordError)?;
+
+        Ok(token)
+    }
+
+    pub fn read_line(&self, s: &mut String) -> Result<()> {
+        let _read_size = stdin().read_line(s).map_err(|_e| DroprError::StdReadLineError)?;
+        let trimmed_size = s.trim_end_matches('\n')
+            .trim_end_matches('\r')
+            .len();
+        
+        s.truncate(trimmed_size);
+        
+        Ok(())
     }
 }
+
+
